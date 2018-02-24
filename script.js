@@ -1,9 +1,11 @@
+ var plebHero;
+ var plebHeroIMG;
+
 function fetchData()
 {
  var linkToHeroImages = "https://api.opendota.com/api/heroStats";
  var linkToRandomMatches = "https://api.opendota.com/api/publicMatches";
  var chosenMatch = "https://api.opendota.com/api/matches/";
- var plebHero;
  var plebItems = [];
 
  var request = new XMLHttpRequest();
@@ -46,7 +48,8 @@ request3.onreadystatechange =  function ()
  console.log(pleb.hero_id);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
- console.log(plebHero);
+ console.log("pleb hero" + plebHero);
+ console.log("pleb"+ plebHeroIMG);
 }
 request3.send();
 
@@ -67,6 +70,10 @@ request4.send();
 
 }
 
+function reset()
+{
+  window.location.reload(); 
+}
 
 function getImagesStr(data)
 {
@@ -79,7 +86,9 @@ function getImagesStr(data)
    {
     console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
+  
+
      ///"<img src="fullImgLink" id="data[i].hero_id">";
    }
  }
@@ -96,8 +105,9 @@ function getImagesAgi(data)
    {
     console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
+  
    }
  }
 }
@@ -113,15 +123,25 @@ function getImagesInt(data)
    {
     console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
+  
    }
  }
 }
 
-function getId()
+function getId(clickedId,obj)
 {
-  console.log("beep this works");
+  var blub = document.getElementById(plebHero).src;
+  var omegaLul = document.getElementById("plebHero");
+  console.log("hello" + blub);
+  if(clickedId == plebHero)
+  {
+      omegaLul.innerHTML = '<img src="'+blub+'" >';
+      container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+blub+'">'); 
+      alert("UWON");
+
+  }
 }
 
 
