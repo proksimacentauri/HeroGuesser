@@ -2,15 +2,15 @@ function fetchData()
 {
  var linkToHeroImages = "https://api.opendota.com/api/heroStats";
  var linkToRandomMatches = "https://api.opendota.com/api/publicMatches";
+ var chosenMatch = "https://api.opendota.com/api/matches/";
+ var plebHero;
+ var plebItems = [];
 
  var request = new XMLHttpRequest();
- request.open('GET', linkToHeroImages,true);
+ request.open('GET', linkToHeroImages,false);
 
  var request2 = new XMLHttpRequest();
- request2.open('GET', linkToRandomMatches,true);
-
- //var request3 = new XMLHttpRequest();
- //request3.open('GET', recentMatches, true);
+ request2.open('GET', linkToRandomMatches,false);
 
  request.onreadystatechange =   function () 
  {
@@ -24,17 +24,47 @@ function fetchData()
 request2.onreadystatechange =  function () 
 {
  var data = JSON.parse(this.response);
+ var id = randomizeMatch(data);
+ console.log("I choose match number: " +id);
+ chosenMatch += id;
+ console.log(chosenMatch);
  console.log(data);
 }
 
-/*request3.onreadystatechange =  function () 
-{
- var data = JSON.parse(this.response);
-}*/
-
+console.log( "Assembled URL: " +chosenMatch);
  request.send();
  request2.send();
- //request3.send();
+ var request3 = new XMLHttpRequest();
+ request3.open('GET', chosenMatch, false);
+
+request3.onreadystatechange =  function () 
+{
+ var data = JSON.parse(this.response);
+ console.log(data);
+ console.log(data.players[0]);
+ var pleb = randomizePlayer(data);
+ console.log(pleb.hero_id);
+ plebHero =  getHeroIDPlayer(pleb);
+ plebItems = getArrayOfItems(pleb);
+ console.log(plebHero);
+}
+request3.send();
+
+var request4 = new XMLHttpRequest();
+request4.open('GET', "http://www.dota2.com/jsfeed/itemdata/?key=7C8B37F899203B917EA9CA4607F86FBE" ,false);
+
+request4.onreadystatechange =  function () 
+{
+ var data = JSON.parse(this.response);
+ ArrayIntoICon(data.itemdata, plebItems)
+ console.log(data.itemdata);
+
+}
+
+request4.send();
+ //request.send();
+ //request2.send();
+
 }
 
 
@@ -49,7 +79,7 @@ function getImagesStr(data)
    {
     console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
    }
  }
@@ -66,7 +96,7 @@ function getImagesAgi(data)
    {
     console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
    }
  }
@@ -83,7 +113,7 @@ function getImagesInt(data)
    {
     console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId()">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
    }
  }
@@ -92,4 +122,57 @@ function getImagesInt(data)
 function getId()
 {
   console.log("beep this works");
+}
+
+
+function randomizeMatch(data)
+{
+  var chosenMatch = data[Math.floor((Math.random() * 100))];
+  console.log(chosenMatch);
+  return chosenMatch.match_id;
+}
+
+
+function randomizePlayer(data)
+{
+ var chosenPlayer = data.players[Math.floor((Math.random() * 10))];
+ console.log(chosenPlayer);
+ return chosenPlayer;
+}
+
+function getHeroIDPlayer(obj)
+{
+  return obj.hero_id;
+}
+
+function getArrayOfItems(obj)
+{
+  var arrOfItems = [];
+  arrOfItems.push(obj.item_0);
+  arrOfItems.push(obj.item_1);
+  arrOfItems.push(obj.item_2);
+  arrOfItems.push(obj.item_3);
+  arrOfItems.push(obj.item_4);
+  arrOfItems.push(obj.item_5);
+  console.log(arrOfItems);
+  return arrOfItems;
+}
+
+function ArrayIntoICon(data,array)
+{
+  var item = document.getElementById("items");
+  var imgLink = "http://cdn.dota2.com/apps/dota2/images/items/";
+
+  for(var i = 0; i < array.length; i++)
+  {
+   for (var a in data) 
+   {
+    if(array[i] == data[a].id)
+    { 
+      console.log(data[a].id);
+      var fullImgLink = imgLink + data[a].img;
+      container.insertAdjacentHTML('beforeend', '<img src="'+fullImgLink+'">');
+    }
+   }
+  }
 }

@@ -1,4 +1,4 @@
-img 
+.hero 
 {
  width:59px;
  height: 33px;
@@ -9,7 +9,7 @@ img
  border:3px solid black;
 }
 
-img:hover
+.hero:hover
 {
  position: relative;
  transform:scale(1.5);
@@ -24,14 +24,8 @@ div{
 
 }
 
-.strength {
-
+.items img{
+ width:100px;
+ height: 100px;
 }
 
-.agility {
-
-}
-
-.intelligence {
-
-}
