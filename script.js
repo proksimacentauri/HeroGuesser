@@ -133,12 +133,12 @@ function getImagesInt(data)
 function getId(clickedId,obj)
 {
   var blub = document.getElementById(plebHero).src;
-  var omegaLul = document.getElementById("plebHero");
+  var omegaLul = document.getElementById("plebHer");
   console.log("hello" + blub);
   if(clickedId == plebHero)
-  {
-      omegaLul.innerHTML = '<img src="'+blub+'" >';
-      container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+blub+'">'); 
+  {   
+    
+      omegaLul.src = blub; 
       alert("UWON");
 
   }
@@ -182,7 +182,6 @@ function ArrayIntoICon(data,array)
 {
   var item = document.getElementById("items");
   var imgLink = "http://cdn.dota2.com/apps/dota2/images/items/";
-
   for(var i = 0; i < array.length; i++)
   {
    for (var a in data) 
@@ -190,8 +189,8 @@ function ArrayIntoICon(data,array)
     if(array[i] == data[a].id)
     { 
       console.log(data[a].id);
-      var fullImgLink = imgLink + data[a].img;
-      container.insertAdjacentHTML('beforeend', '<img src="'+fullImgLink+'">');
+      var fullImgLink =  imgLink + data[a].img;
+      item.innerHTML +='<img src="'+fullImgLink+'">';
     }
    }
   }

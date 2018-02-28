@@ -6,13 +6,16 @@
 <body onload="fetchData()">
 <script src="script.js"></script>
 <h3>Dota Hero guesser</h3>
-<input type="button" onclick="reset()" value="New Game">
+<input type="button" class="newGame" onclick="reset()" value="New Game">
 <div id="container">
-<div id="strength" id=class="hero"></div> <br>
-<div id="agility" id=class="hero"></div><br>
-<div id="intelligence" id=class="hero"></div>
+<div id="lowerContainer">
+<div id="plebHero"><img id="plebHer" src="heroBefore.png"></div>
+<div align="center" id="items"></div>
 </div>
-<div id="items"></div>
-<div id="plebHero"></div>
+<div id="strength">Strength<img id="strIcon" src="str.png"><br></div> 
+<div id="agility" >Agility<img id="agiIcon" src="agi.png"><br></div>
+<div id="intelligence" >Intelligence<img id="intIcon" src="int.png"><br></div>
+
+</div>
 </body>
 </html>

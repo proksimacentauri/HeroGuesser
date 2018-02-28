@@ -1,3 +1,68 @@
+body {
+	background-image: url("background.png");
+	font-family: 'arial';	
+	color:white;
+}
+
+#container {
+
+	   background-color: rgba(0,0,0,0.5);
+	text-align: center;
+    margin: auto;
+    display:inline-block;
+    color:black;
+
+}
+
+
+#lowerContainer {
+    text-align: center;
+    width: 550px;
+  
+    margin: auto;
+    display:inline-block;
+    color:black;
+}
+
+#strength {
+
+background-color:rgba(255,0,0,0.3);
+	text-align: left;
+    margin: auto;
+    display:inline-block;
+color:white;
+}
+
+#agility {
+
+	 background-color:rgba(0,255,0,0.3);
+	text-align: left;
+    margin: auto;
+    display:inline-block;
+color:white;
+}
+
+#intelligence {
+
+	background-color:rgba(0,0,255,0.3);
+	text-align: left;
+    margin: auto;
+    display:inline-block;
+color:white;
+}
+
+
+
+.plebHero img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+  border:3px solid red;
+  color:black;
+}
+
+
+
 .hero 
 {
  width:59px;
@@ -20,11 +85,37 @@
  border: 3px solid white;
 }
 
-div{
+.hero:active	
+{
+ position: relative;
+ transform:scale(1.5);
+ transition:all 0.2s;
+ top:-2px;
+ left:-2px;
+ z-index: 3;
+ border: 3px solid grey;
+}
+
+input.newGame {
+width: 100px;
+padding: 10px;
+cursor: pointer;
+font-size: 100%;
+background: #00b570;
+color: #fff;
+border: 1px solid #00b570;
+border-radius: 10px;
+
 
 }
 
+input.newGame:hover {
+color: #fff;
+background: #007146;
+}
+
 .items img{
+   display:inline-block;
  width:100px;
  height: 100px;
 }
