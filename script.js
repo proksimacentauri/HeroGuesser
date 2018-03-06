@@ -1,78 +1,86 @@
  var plebHero;
  var plebHeroIMG;
+ var dotaItems;
+ var heroes; 
+ var gameGoing = true;
+ var plebItems;
+ var matchData;
 
 function fetchData()
 {
  var linkToHeroImages = "https://api.opendota.com/api/heroStats";
  var linkToRandomMatches = "https://api.opendota.com/api/publicMatches";
  var chosenMatch = "https://api.opendota.com/api/matches/";
- var plebItems = [];
 
  var request = new XMLHttpRequest();
- request.open('GET', linkToHeroImages,false);
+ request.open('GET', linkToHeroImages,true );
 
  var request2 = new XMLHttpRequest();
- request2.open('GET', linkToRandomMatches,false);
+ request2.open('GET', linkToRandomMatches,true);
 
- request.onreadystatechange =   function () 
+ var request4 = new XMLHttpRequest();
+request4.open('GET', "http://www.dota2.com/jsfeed/itemdata/?key=7C8B37F899203B917EA9CA4607F86FBE" ,true);
+
+
+ request.onload =   function () 
  {
  var data = JSON.parse(this.response);
- getImagesStr(data);
- getImagesAgi(data);
- getImagesInt(data);
- console.log(data,data[113].primary_attr);
+ heroes = data;
+ //console.log( data[0]);
+ getImagesStr(heroes);
+ getImagesAgi(heroes);
+ getImagesInt(heroes);
  }
+  request.send();
 
+request4.onload =  function () 
+{
+ var data = JSON.parse(this.response);
+ dotaItems = data.itemdata;
+ console.log(data.itemdata);
+}
+
+ request4.send();
 request2.onreadystatechange =  function () 
 {
  var data = JSON.parse(this.response);
  var id = randomizeMatch(data);
- console.log("I choose match number: " +id);
+ //console.log("I choose match number: " +id);
  chosenMatch += id;
- console.log(chosenMatch);
- console.log(data);
-}
+ //console.log("the chosen match is" + chosenMatch);
 
-console.log( "Assembled URL: " +chosenMatch);
- request.send();
- request2.send();
  var request3 = new XMLHttpRequest();
- request3.open('GET', chosenMatch, false);
-
-request3.onreadystatechange =  function () 
+  //console.log(chosenMatch);
+ request3.open('GET', chosenMatch, true);
+ request3.onreadystatechange =  function () 
 {
- var data = JSON.parse(this.response);
- console.log(data);
- console.log(data.players[0]);
- var pleb = randomizePlayer(data);
- console.log(pleb.hero_id);
- plebHero =  getHeroIDPlayer(pleb);
+ var nata = JSON.parse(this.response);
+/* console.log("HELLO:" + chosenMatch);
+ console.log( nata.players[0]);
+ console.log(nata);*/
+ var pleb = randomizePlayer(nata);
+ /*console.log(pleb);
+ console.log(nata);*/
+  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
+
+ ArrayIntoICon(dotaItems, plebItems);
+
  console.log("pleb hero" + plebHero);
  console.log("pleb"+ plebHeroIMG);
-}
-request3.send();
-
-var request4 = new XMLHttpRequest();
-request4.open('GET', "http://www.dota2.com/jsfeed/itemdata/?key=7C8B37F899203B917EA9CA4607F86FBE" ,false);
-
-request4.onreadystatechange =  function () 
-{
- var data = JSON.parse(this.response);
- ArrayIntoICon(data.itemdata, plebItems)
- console.log(data.itemdata);
 
 }
 
-request4.send();
- //request.send();
- //request2.send();
+ request3.send();
+
+}
+  request2.send();
 
 }
 
 function reset()
 {
-  window.location.reload(); 
+  
 }
 
 function getImagesStr(data)
@@ -80,6 +88,7 @@ function getImagesStr(data)
   var container = document.getElementById("strength");
   var imgLink = "http://cdn.dota2.com/";
  console.log(imgLink);
+ //console.log(data)
  for(var i = 0; i < data.length; i++)
  {
    if(data[i].primary_attr == "str")
@@ -98,12 +107,12 @@ function getImagesAgi(data)
 {
   var container = document.getElementById("agility");
   var imgLink = "http://cdn.dota2.com/";
- console.log(imgLink);
+ //console.log(imgLink);
  for(var i = 0; i < data.length; i++)
  {
    if(data[i].primary_attr == "agi")
    {
-    console.log("HI");
+    //console.log("HI");
     var fullImgLink = imgLink + data[i].img;
     container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
@@ -121,7 +130,7 @@ function getImagesInt(data)
  {
    if(data[i].primary_attr == "int")
    {
-    console.log("HI");
+    //console.log("HI");
     var fullImgLink = imgLink + data[i].img;
     container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
@@ -134,13 +143,19 @@ function getId(clickedId,obj)
 {
   var blub = document.getElementById(plebHero).src;
   var omegaLul = document.getElementById("plebHer");
-  console.log("hello" + blub);
+  //console.log("hello" + blub);
   if(clickedId == plebHero)
   {   
-    
+      document.getElementById(plebHero).style.border = "3px solid green"; 
       omegaLul.src = blub; 
       alert("UWON");
+      gameGoing = false;
+  }
 
+  else if (clickedId != plebHero && gameGoing)
+  {
+   document.getElementById(clickedId).style.border = "3px solid red"; 
+     
   }
 }
 
@@ -155,6 +170,7 @@ function randomizeMatch(data)
 
 function randomizePlayer(data)
 {
+  console.log(data);
  var chosenPlayer = data.players[Math.floor((Math.random() * 10))];
  console.log(chosenPlayer);
  return chosenPlayer;
