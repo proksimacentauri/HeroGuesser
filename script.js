@@ -7,6 +7,8 @@
  var matchData;
  var pleb;
 var matches;
+var id;
+var plebHeroName = "";
 
 function loading() {
   fetchData();
@@ -54,8 +56,8 @@ request2.onreadystatechange =  function ()
 {
  var data = JSON.parse(this.response);
  matches = data;
- var id = randomizeMatch(matches);
- //console.log("I choose match number: " +id);
+ id = randomizeMatch(matches);
+ console.log("I choose match number: " +id);
  chosenMatch += id;
  //console.log("the chosen match is" + chosenMatch);
 
@@ -84,7 +86,15 @@ function loadingElements()
     pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
+ console.log(plebItems);
+ if(plebItems.reduce((a, b) => a + b, 0) == 0)
+ {
+  pleb = randomizePlayer(matchData);
+  plebHero =  getHeroIDPlayer(pleb);
+  plebItems = getArrayOfItems(pleb);
+ }
    ArrayIntoICon(dotaItems, plebItems);
+    plebHeroName =  getHeroName(heroes);
 
 }
 
@@ -104,6 +114,11 @@ function reset()
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
    ArrayIntoICon(dotaItems, plebItems);
+ plebHeroName =  getHeroName(heroes);  
+  document.getElementById("matchId").innerHTML = "";
+      document.getElementById("heroName").innerHTML ="";
+      document.getElementById("winnerText").style.display = "none";
+      gameGoing = true;
 
 }
 
@@ -170,7 +185,10 @@ function getId(clickedId,obj)
   {   
       document.getElementById(plebHero).style.border = "3px solid green"; 
       omegaLul.src = blub; 
-      alert("UWON");
+      document.getElementById("matchId").innerHTML = "match id: " +  id;
+      console.log(clickedId,heroes[plebHero -1]);
+      document.getElementById("heroName").innerHTML ="It was: " + plebHeroName + "!";
+      document.getElementById("winnerText").style.display = "inline-block";
       gameGoing = false;
   }
 
@@ -211,6 +229,20 @@ function getHeroIDPlayer(obj)
   return obj.hero_id;
 }
 
+function getHeroName(obj)
+{
+  
+  for(var i = 0; i < obj.length; i++)
+ {
+   if(obj[i].id == plebHero)
+   {
+     console.log(obj[i]);
+      return obj[i].localized_name;
+   }
+    
+ }
+}
+
 function getArrayOfItems(obj)
 {
   var arrOfItems = [];
@@ -235,7 +267,13 @@ function ArrayIntoICon(data,array)
     if(array[i] == data[a].id)
     { 
       var fullImgLink =  imgLink + data[a].img;
+      
+      if(data[a].dname == "Kaya")
+      {
+       var fullImgLink = imgLink + "trident_lg.png?3";
+      }
       item.innerHTML +='<img src="'+fullImgLink+'">';
+
     }
    }
   }
