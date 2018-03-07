@@ -5,11 +5,22 @@
  var gameGoing = true;
  var plebItems;
  var matchData;
+ var pleb;
+var matches;
+
+function loading() {
+  fetchData();
+    myVar = setTimeout(showPage, 3000);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+
 
 function fetchData()
 {
- 
-  
  var linkToHeroImages = "https://api.opendota.com/api/heroStats";
  var linkToRandomMatches = "https://api.opendota.com/api/publicMatches";
  var chosenMatch = "https://api.opendota.com/api/matches/";
@@ -28,10 +39,6 @@ request4.open('GET', "http://www.dota2.com/jsfeed/itemdata/?key=7C8B37F899203B91
  {
  var data = JSON.parse(this.response);
  heroes = data;
- //console.log( data[0]);
- getImagesStr(heroes);
- getImagesAgi(heroes);
- getImagesInt(heroes);
  }
   request.send();
 
@@ -46,7 +53,8 @@ request4.onload =  function ()
 request2.onreadystatechange =  function () 
 {
  var data = JSON.parse(this.response);
- var id = randomizeMatch(data);
+ matches = data;
+ var id = randomizeMatch(matches);
  //console.log("I choose match number: " +id);
  chosenMatch += id;
  //console.log("the chosen match is" + chosenMatch);
@@ -57,19 +65,8 @@ request2.onreadystatechange =  function ()
  request3.onreadystatechange =  function () 
 {
  var nata = JSON.parse(this.response);
-/* console.log("HELLO:" + chosenMatch);
- console.log( nata.players[0]);
- console.log(nata);*/
- var pleb = randomizePlayer(nata);
- /*console.log(pleb);
- console.log(nata);*/
-  plebHero =  getHeroIDPlayer(pleb);
- plebItems = getArrayOfItems(pleb);
-
- ArrayIntoICon(dotaItems, plebItems);
-
- console.log( plebHeroIMG);
-
+ matchData = nata;
+ loadingElements();
 }
 
  request3.send();
@@ -79,9 +76,35 @@ request2.onreadystatechange =  function ()
 
 }
 
+function loadingElements()
+{
+   getImagesStr(heroes);
+ getImagesAgi(heroes);
+ getImagesInt(heroes);
+    pleb = randomizePlayer(matchData);
+ plebHero =  getHeroIDPlayer(pleb);
+ plebItems = getArrayOfItems(pleb);
+   ArrayIntoICon(dotaItems, plebItems);
+
+}
+
 function reset()
 {
-  
+ chosenMatch = "https://api.opendota.com/api/matches/"; 
+ var id = randomizeMatch(matches);
+ document.getElementById("plebHer").src ="heroBefore.png"
+ plebItems.length = 0;
+ console.log(plebItems);
+ document.getElementById("items").innerHTML = "";
+ chosenMatch += id;
+ var heroImages = document.getElementsByClassName("hero");
+ loopResetImg();
+ console.log(heroImages.style);
+   pleb = randomizePlayer(matchData);
+ plebHero =  getHeroIDPlayer(pleb);
+ plebItems = getArrayOfItems(pleb);
+   ArrayIntoICon(dotaItems, plebItems);
+
 }
 
 function getImagesStr(data)
@@ -158,6 +181,14 @@ function getId(clickedId,obj)
   }
 }
 
+function loopResetImg()
+{
+  var heroImages = document.getElementsByClassName("hero");
+  for (i = 0; i < heroImages.length; i++) 
+  {
+        heroImages[i].style.border = "3px solid black";
+    }
+}
 
 function randomizeMatch(data)
 {
@@ -203,7 +234,6 @@ function ArrayIntoICon(data,array)
    {
     if(array[i] == data[a].id)
     { 
-      console.log(data[a].id);
       var fullImgLink =  imgLink + data[a].img;
       item.innerHTML +='<img src="'+fullImgLink+'">';
     }
