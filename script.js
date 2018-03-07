@@ -8,6 +8,8 @@
 
 function fetchData()
 {
+ 
+  
  var linkToHeroImages = "https://api.opendota.com/api/heroStats";
  var linkToRandomMatches = "https://api.opendota.com/api/publicMatches";
  var chosenMatch = "https://api.opendota.com/api/matches/";
@@ -66,8 +68,7 @@ request2.onreadystatechange =  function ()
 
  ArrayIntoICon(dotaItems, plebItems);
 
- console.log("pleb hero" + plebHero);
- console.log("pleb"+ plebHeroIMG);
+ console.log( plebHeroIMG);
 
 }
 
@@ -93,9 +94,8 @@ function getImagesStr(data)
  {
    if(data[i].primary_attr == "str")
    {
-    console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].id+'" onclick="getId(this.id)">');
   
 
      ///"<img src="fullImgLink" id="data[i].hero_id">";
@@ -114,7 +114,7 @@ function getImagesAgi(data)
    {
     //console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].id+'" onclick="getId(this.id)">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
   
    }
@@ -130,9 +130,8 @@ function getImagesInt(data)
  {
    if(data[i].primary_attr == "int")
    {
-    //console.log("HI");
     var fullImgLink = imgLink + data[i].img;
-    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].hero_id+'" onclick="getId(this.id)">');
+    container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].id+'" onclick="getId(this.id)">');
      ///"<img src="fullImgLink" id="data[i].hero_id">";
   
    }
@@ -143,7 +142,7 @@ function getId(clickedId,obj)
 {
   var blub = document.getElementById(plebHero).src;
   var omegaLul = document.getElementById("plebHer");
-  //console.log("hello" + blub);
+  console.log("hello" + blub);
   if(clickedId == plebHero)
   {   
       document.getElementById(plebHero).style.border = "3px solid green"; 
@@ -211,3 +210,4 @@ function ArrayIntoICon(data,array)
    }
   }
 }
+
