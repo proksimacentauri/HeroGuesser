@@ -31,19 +31,6 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-#myDiv {
-  display: none;
-  text-align: center;
-}
- 
- #winnerText {
- 	font-size: 15px;
- 	text-align: center;
-    margin: auto;
-    display:none;
-    color:white;
- }
-
 #matchId {
 	text-align: center;
     margin: auto;
