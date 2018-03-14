@@ -10,7 +10,7 @@ var matches;
 
 function loading() {
   fetchData();
-    myVar = setTimeout(showPage, 3000);
+    myVar = setTimeout(showPage, 5000);
 }
 
 function showPage() {
@@ -47,7 +47,6 @@ request4.onload =  function ()
 {
  var data = JSON.parse(this.response);
  dotaItems = data.itemdata;
- console.log(data.itemdata);
 }
 
  request4.send();
@@ -78,41 +77,51 @@ request2.onreadystatechange =  function ()
 
 function loadingElements()
 {
-   getImagesStr(heroes);
+ getImagesStr(heroes);
  getImagesAgi(heroes);
  getImagesInt(heroes);
-    pleb = randomizePlayer(matchData);
+ pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
-   ArrayIntoICon(dotaItems, plebItems);
-
+ console.log(plebItems, pleb);
+ ArrayIntoICon(dotaItems, plebItems);
 }
 
 function reset()
 {
  chosenMatch = "https://api.opendota.com/api/matches/"; 
  var id = randomizeMatch(matches);
+ console.log(id);
  document.getElementById("plebHer").src ="heroBefore.png"
  plebItems.length = 0;
- console.log(plebItems);
  document.getElementById("items").innerHTML = "";
  chosenMatch += id;
  var heroImages = document.getElementsByClassName("hero");
  loopResetImg();
- console.log(heroImages.style);
+
+var request3 = new XMLHttpRequest();
+request3.open('GET', chosenMatch, true);
+
+ request3.onreadystatechange =  function () 
+{
+ var nata = JSON.parse(this.response);
+ matchData = nata;
+}
+
+ request3.send();
+
    pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
    ArrayIntoICon(dotaItems, plebItems);
-
+    console.log(plebItems, pleb);
+   gameGoing = true;
 }
 
 function getImagesStr(data)
 {
   var container = document.getElementById("strength");
   var imgLink = "http://cdn.dota2.com/";
- console.log(imgLink);
- //console.log(data)
  for(var i = 0; i < data.length; i++)
  {
    if(data[i].primary_attr == "str")
@@ -148,7 +157,6 @@ function getImagesInt(data)
 {
   var container = document.getElementById("intelligence");
   var imgLink = "http://cdn.dota2.com/";
- console.log(imgLink);
  for(var i = 0; i < data.length; i++)
  {
    if(data[i].primary_attr == "int")
@@ -192,17 +200,18 @@ function loopResetImg()
 
 function randomizeMatch(data)
 {
-  var chosenMatch = data[Math.floor((Math.random() * 100))];
-  console.log(chosenMatch);
+  var random = Math.floor((Math.random() * 100));
+  var chosenMatch = data[random];
+  console.log("the chosen random:" +random + " " + chosenMatch.match_id);
   return chosenMatch.match_id;
 }
 
 
 function randomizePlayer(data)
 {
-  console.log(data);
- var chosenPlayer = data.players[Math.floor((Math.random() * 10))];
- console.log(chosenPlayer);
+ var random = Math.floor((Math.random() * 10))
+ var chosenPlayer = data.players[random];
+ console.log("the chosen playr" + random);
  return chosenPlayer;
 }
 
@@ -220,7 +229,6 @@ function getArrayOfItems(obj)
   arrOfItems.push(obj.item_3);
   arrOfItems.push(obj.item_4);
   arrOfItems.push(obj.item_5);
-  console.log(arrOfItems);
   return arrOfItems;
 }
 
@@ -235,8 +243,19 @@ function ArrayIntoICon(data,array)
     if(array[i] == data[a].id)
     { 
       var fullImgLink =  imgLink + data[a].img;
-      item.innerHTML +='<img src="'+fullImgLink+'">';
+
+      console.log("item name:" + data[a].dname);
+      if(data[a].dname == "Kaya")
+      { 
+        console.log("HI");
+        fullImgLink = imgLink + "trident_lg.png?3";
+      }
+       item.innerHTML +='<img src="'+fullImgLink+'">';
     }
    }
+    if(array[i]== 0)
+    {
+      item.innerHTML += '<img src="empty.png">';
+    }
   }
 }

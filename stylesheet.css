@@ -1,7 +1,7 @@
 body {
-	background-color: #2d2d2b;
 	font-family: 'arial';	
 	color:white;
+background: #22304C !important; 
 }
 
 #loader {
@@ -31,6 +31,12 @@ body {
   100% { transform: rotate(360deg); }
 }
 
+#myDiv {
+  display: none;
+  text-align: center;
+}
+ 
+
 #matchId {
 	text-align: center;
     margin: auto;
@@ -47,25 +53,15 @@ body {
 }
 
 #container {
-	 border:10px #24090d;
-	   border-radius: 5px;
-	 border-style: solid;
-	   background-color: rgba(0,0,0,0.5);
-	text-align: center;
-    margin: auto;
-    display:inline-block;
+   
     color:black;
 
 }
 
 
 #lowerContainer {
-    text-align: center;
-    width: 550px;
-  
-    margin: auto;
-    display:inline-block;
-    color:black;
+    border: 3px solid red;
+     background: #151F33 !important; 
 }
 
 #strength {
@@ -97,8 +93,8 @@ color:white;
 
 .hero 
 {
- width:59px;
- height: 33px;
+ height: 64;
+ width: 85px;
  transition:all 0.2s;
  position:relative;
  display:block;
@@ -128,34 +124,13 @@ color:white;
  border: 3px solid grey;
 }
 
-input.newGame {
-width: 100px;
-padding: 10px;
-cursor: pointer;
-font-size: 100%;
-background: #00b570;
-color: #fff;
-border: 1px solid #00b570;
-border-radius: 10px;
 
-
+#items {
+    display:inline-block;
+    border: 3px solid black;
 }
 
-input.newGame:hover {
-color: #fff;
-background: #007146;
-}
-
-.items img{
-   display:inline-block;
- width:100px;
- height: 100px;
-}
-
-.plebHero img {
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
+#plebHero {
   border:3px solid red;
   color:black;
 }

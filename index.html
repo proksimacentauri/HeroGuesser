@@ -1,23 +1,29 @@
+<!DOCTYPE html>
 <html>
 <head> 
 <link rel="stylesheet" type="text/css" href="stylesheet.css" />
-</head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
 <body onload="loading()">
 <script src="script.js"></script>
-<h3>Dota Hero guesser</h3>
-<input type="button" class="newGame" onclick="reset()" value="New Game">
+
+<input type="button" class="btn btn-default" type="button" onclick="reset()" value="New Game">
 <div id="loader"></div>
-<div style="display:none;" id="myDiv" class="animate-bottom">
-<div id="container">
-<div id="lowerContainer">
-<div id="plebHero"><img id="plebHer" src="heroBefore.png"></div>
-<div align="center" id="items"></div>
-</div>
+<div style="display:none;" id="myDiv">
+
+<div class="container-fluid" id="lowerContainer">
+<div id="plebHero"><img id="plebHer" class="img-responsive" src="heroBefore.png"></div><div align="center" id="items"></div></div>
+
+<div class="container-fluid" id="container">
 <div id="strength" onload="">Strength<img id="strIcon" src="str.png"><br></div> 
 <div id="agility" >Agility<img id="agiIcon" src="agi.png"><br></div>
 <div id="intelligence" >Intelligence<img id="intIcon" src="int.png"><br></div>
 </div>
+
 </div>
+<script src="http://code.jquery.com/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
