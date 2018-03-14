@@ -83,6 +83,7 @@ function loadingElements()
  pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
+ checkArrayIfEmpty(plebItems);
  console.log(plebItems, pleb);
  ArrayIntoICon(dotaItems, plebItems);
 }
@@ -111,8 +112,9 @@ request3.open('GET', chosenMatch, true);
  request3.send();
 
    pleb = randomizePlayer(matchData);
- plebHero =  getHeroIDPlayer(pleb);
- plebItems = getArrayOfItems(pleb);
+    plebItems = getArrayOfItems(pleb);
+    plebHero =  getHeroIDPlayer(pleb);
+   checkArrayIfEmpty(plebItems);
    ArrayIntoICon(dotaItems, plebItems);
     console.log(plebItems, pleb);
    gameGoing = true;
@@ -232,6 +234,22 @@ function getArrayOfItems(obj)
   return arrOfItems;
 }
 
+function checkArrayIfEmpty(array)
+{
+  var sum = 0;
+ for(var i = 0; i < array.length; i++)
+ {
+  sum += array[i];
+ }
+ if(sum == 0)
+ {
+  console.log("HEJ INGA ITEMS");
+  pleb = randomizePlayer(matchData);
+  plebItems = getArrayOfItems(pleb);
+  plebHero =  getHeroIDPlayer(pleb);
+ }
+}
+
 function ArrayIntoICon(data,array)
 {
   var item = document.getElementById("items");
@@ -244,10 +262,8 @@ function ArrayIntoICon(data,array)
     { 
       var fullImgLink =  imgLink + data[a].img;
 
-      console.log("item name:" + data[a].dname);
       if(data[a].dname == "Kaya")
       { 
-        console.log("HI");
         fullImgLink = imgLink + "trident_lg.png?3";
       }
        item.innerHTML +='<img src="'+fullImgLink+'">';
