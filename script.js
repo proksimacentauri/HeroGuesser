@@ -10,7 +10,7 @@ var matches;
 
 function loading() {
   fetchData();
-    myVar = setTimeout(showPage, 5000);
+    myVar = setTimeout(showPage, 3000);
 }
 
 function showPage() {
@@ -98,6 +98,8 @@ function reset()
  document.getElementById("items").innerHTML = "";
  chosenMatch += id;
  var heroImages = document.getElementsByClassName("hero");
+ document.getElementById("matchId").innerHTML = "";
+ document.getElementById("heroTitle").innerHTML = "";
  loopResetImg();
 
 var request3 = new XMLHttpRequest();
@@ -177,10 +179,12 @@ function getId(clickedId,obj)
   var omegaLul = document.getElementById("plebHer");
   console.log("hello" + blub);
   if(clickedId == plebHero)
-  {   
+  {    console.log(clickedId)
+     var heroName = butiful();
+      document.getElementById("heroTitle").innerHTML = "you won! it was " + heroName;
       document.getElementById(plebHero).style.border = "3px solid green"; 
       omegaLul.src = blub; 
-      alert("UWON");
+      document.getElementById("matchId").innerHTML = "Match Id: " + matchData.match_id;
       gameGoing = false;
   }
 
@@ -191,6 +195,16 @@ function getId(clickedId,obj)
   }
 }
 
+function butiful()
+{ 
+  for(var i = 0; i < heroes.length; i++)
+  {
+    if(heroes[i].id == plebHero)
+    {
+      return heroes[i].localized_name;
+    }
+  }
+}
 function loopResetImg()
 {
   var heroImages = document.getElementsByClassName("hero");
