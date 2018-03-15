@@ -95,7 +95,6 @@ function reset()
  console.log(id);
  document.getElementById("plebHer").src ="heroBefore.png"
  plebItems.length = 0;
- document.getElementById("items").innerHTML = "";
  chosenMatch += id;
  var heroImages = document.getElementsByClassName("hero");
  document.getElementById("matchId").innerHTML = "";
@@ -117,8 +116,10 @@ request3.open('GET', chosenMatch, true);
     plebItems = getArrayOfItems(pleb);
     plebHero =  getHeroIDPlayer(pleb);
    checkArrayIfEmpty(plebItems);
+   document.getElementById("items").innerHTML = "";
    ArrayIntoICon(dotaItems, plebItems);
     console.log(plebItems, pleb);
+
    gameGoing = true;
 }
 
@@ -132,8 +133,6 @@ function getImagesStr(data)
    {
     var fullImgLink = imgLink + data[i].img;
     container.insertAdjacentHTML('beforeend', '<img class="hero" src="'+fullImgLink+'" id="'+data[i].id+'" onclick="getId(this.id)">');
-  
-
      ///"<img src="fullImgLink" id="data[i].hero_id">";
    }
  }
@@ -256,11 +255,9 @@ function checkArrayIfEmpty(array)
   sum += array[i];
  }
  if(sum == 0)
- {
-  console.log("HEJ INGA ITEMS");
-  pleb = randomizePlayer(matchData);
-  plebItems = getArrayOfItems(pleb);
-  plebHero =  getHeroIDPlayer(pleb);
+ {  
+  console.log("HELLO NO ITEMS");
+   reset();
  }
 }
 

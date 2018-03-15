@@ -60,7 +60,7 @@ background: #22304C !important;
 
 
 #lowerContainer {
-    border: 3px solid red;
+  
      background: #151F33 !important; 
 }
 
@@ -127,15 +127,18 @@ color:white;
 
 #items {
     display:inline-block;
-    border: 3px solid black;
 }
 
 #plebHero {
-  border:3px solid red;
   color:black;
 }
 
-#heroTitle {
+#heroTitle 
+{
+ color:white;
+}
 
-  color:white;
+#matchId 
+{
+ display:block;
 }
