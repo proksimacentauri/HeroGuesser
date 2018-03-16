@@ -13,10 +13,11 @@ background: #22304C !important;
     right:50px; 
     z-index:10;
     background: #151F33;
+    box-shadow:0 0 15px rgba(0,0,0, 0.5);
   }
   #items img {
- border:3px solid #1a1a1a;
-
+ border:6px solid #1a1a1a;
+box-shadow:0 0 15px rgba(0,0,0, 0.5);
   }
 }
 
@@ -143,6 +144,7 @@ color:white;
 
 #items {
     display:inline-block;
+     background-color: #151F33 !important;
 }
 
 #plebHero {
@@ -158,3 +160,8 @@ color:white;
 {
  display:block;
 }
+
+ #items img {
+ border:6px solid #1a1a1a;
+box-shadow:0 0 15px rgba(0,0,0, 0.5);
+  }

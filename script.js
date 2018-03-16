@@ -9,14 +9,13 @@
 var matches;
 
 function loading() {
-  fetchData();
-    myVar = setTimeout(showPage, 3000);
+   fetchData();
+    myVar = setTimeout(showPage, 1000);
 }
 
 function showPage() {
   document.getElementById("loader").style.display = "none";
   document.getElementById("myDiv").style.display = "block";
-   loadingElements();
 }
 
 
@@ -50,29 +49,32 @@ request4.onload =  function ()
 }
 
  request4.send();
-request2.onreadystatechange =  function () 
+request2.onload =  function () 
 {
+
  var data = JSON.parse(this.response);
  matches = data;
  var id = randomizeMatch(matches);
- //console.log("I choose match number: " +id);
+ console.log("I choose match number: " +id);
  chosenMatch += id;
  //console.log("the chosen match is" + chosenMatch);
 
  var request3 = new XMLHttpRequest();
-  //console.log(chosenMatch);
+  console.log(chosenMatch);
+
  request3.open('GET', chosenMatch, true);
- request3.onreadystatechange =  function () 
+
+ request3.onload =  function () 
 {
  var nata = JSON.parse(this.response);
  matchData = nata;
+ loadingElements();
 }
-
  request3.send();
 
 }
   request2.send();
-
+  
 }
 
 function loadingElements()
@@ -115,6 +117,7 @@ request3.open('GET', chosenMatch, true);
 
  request3.onreadystatechange =  function () 
 {
+
  var nata = JSON.parse(this.response);
  matchData = nata;
 }
@@ -269,7 +272,7 @@ function checkArrayIfEmpty(array)
  }
  if(sum == 0)
  {  
-  console.log("NO ITEMS");
+  console.log("NO ITEMS");  
     return true;
  }
  return false;
