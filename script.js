@@ -83,24 +83,33 @@ function loadingElements()
  pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
- checkArrayIfEmpty(plebItems);
+ if(checkArrayIfEmpty(plebItems) == false)
+ {
  console.log(plebItems, pleb);
  ArrayIntoICon(dotaItems, plebItems);
+ }
+ else {
+  reset();
+ }
 }
 
 function reset()
 {
+
  chosenMatch = "https://api.opendota.com/api/matches/"; 
  var id = randomizeMatch(matches);
  console.log(id);
  document.getElementById("plebHer").src ="heroBefore.png"
  plebItems.length = 0;
+ console.log(plebItems);
  chosenMatch += id;
  var heroImages = document.getElementsByClassName("hero");
  document.getElementById("matchId").innerHTML = "";
  document.getElementById("heroTitle").innerHTML = "";
  loopResetImg();
+ document.getElementById("items").innerHTML = "";
 
+console.log("Two")
 var request3 = new XMLHttpRequest();
 request3.open('GET', chosenMatch, true);
 
@@ -115,11 +124,14 @@ request3.open('GET', chosenMatch, true);
    pleb = randomizePlayer(matchData);
     plebItems = getArrayOfItems(pleb);
     plebHero =  getHeroIDPlayer(pleb);
-   checkArrayIfEmpty(plebItems);
-   document.getElementById("items").innerHTML = "";
-   ArrayIntoICon(dotaItems, plebItems);
-    console.log(plebItems, pleb);
-
+  if(checkArrayIfEmpty(plebItems) == false)
+  {
+  console.log(plebItems, pleb);
+  ArrayIntoICon(dotaItems, plebItems);
+  }
+ else {
+  reset();
+ }
    gameGoing = true;
 }
 
@@ -253,12 +265,14 @@ function checkArrayIfEmpty(array)
  for(var i = 0; i < array.length; i++)
  {
   sum += array[i];
+  console.log(array[i], sum);
  }
  if(sum == 0)
  {  
-  console.log("HELLO NO ITEMS");
-   reset();
+  console.log("NO ITEMS");
+    return true;
  }
+ return false;
 }
 
 function ArrayIntoICon(data,array)

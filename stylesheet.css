@@ -4,6 +4,22 @@ body {
 background: #22304C !important; 
 }
 
+
+@media (max-width: 480px) 
+{
+ #items {
+    position:sticky;
+    top: 0px;
+    right:50px; 
+    z-index:10;
+    background: #151F33;
+  }
+  #items img {
+ border:3px solid #1a1a1a;
+
+  }
+}
+
 #loader {
   position: absolute;
   left: 50%;
