@@ -5,8 +5,10 @@
  var gameGoing = true;
  var plebItems;
  var matchData;
+ var plebId;
  var pleb;
 var matches;
+
 
 function loading() {
    fetchData();
@@ -51,7 +53,7 @@ request4.onload =  function ()
  request4.send();
 request2.onload =  function () 
 {
-
+ 
  var data = JSON.parse(this.response);
  matches = data;
  var id = randomizeMatch(matches);
@@ -60,7 +62,7 @@ request2.onload =  function ()
  //console.log("the chosen match is" + chosenMatch);
 
  var request3 = new XMLHttpRequest();
-  console.log(chosenMatch);
+  //console.log(chosenMatch);
 
  request3.open('GET', chosenMatch, true);
 
@@ -85,9 +87,11 @@ function loadingElements()
  pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
+  var url = "/" + matchData.match_id + "/" + plebId + "/";
+  console.log(url);
+ 
  if(checkArrayIfEmpty(plebItems) == false)
  {
- console.log(plebItems, pleb);
  ArrayIntoICon(dotaItems, plebItems);
  }
  else {
@@ -100,42 +104,49 @@ function reset()
 
  chosenMatch = "https://api.opendota.com/api/matches/"; 
  var id = randomizeMatch(matches);
- console.log(id);
+ plebId = 0;
+
  document.getElementById("plebHer").src ="heroBefore.png"
  plebItems.length = 0;
- console.log(plebItems);
  chosenMatch += id;
+ 
  var heroImages = document.getElementsByClassName("hero");
  document.getElementById("matchId").innerHTML = "";
  document.getElementById("heroTitle").innerHTML = "";
  loopResetImg();
  document.getElementById("items").innerHTML = "";
 
-console.log("Two")
 var request3 = new XMLHttpRequest();
 request3.open('GET', chosenMatch, true);
 
  request3.onreadystatechange =  function () 
 {
-
+ if(this.readyState == 4)
+ {
  var nata = JSON.parse(this.response);
  matchData = nata;
+
+  pleb = randomizePlayer(matchData);
+    plebItems = getArrayOfItems(pleb);
+    plebHero =  getHeroIDPlayer(pleb);
+    var url = "/" + matchData.match_id + "/" + plebId + "/";
+  console.log(url);
+  if(checkArrayIfEmpty(plebItems) == false)
+  {
+ 
+  ArrayIntoICon(dotaItems, plebItems);
+  }
+
+ else 
+ {
+  reset();
+ }
+   gameGoing = true;
+ }
 }
 
  request3.send();
 
-   pleb = randomizePlayer(matchData);
-    plebItems = getArrayOfItems(pleb);
-    plebHero =  getHeroIDPlayer(pleb);
-  if(checkArrayIfEmpty(plebItems) == false)
-  {
-  console.log(plebItems, pleb);
-  ArrayIntoICon(dotaItems, plebItems);
-  }
- else {
-  reset();
- }
-   gameGoing = true;
 }
 
 function getImagesStr(data)
@@ -241,7 +252,8 @@ function randomizePlayer(data)
 {
  var random = Math.floor((Math.random() * 10))
  var chosenPlayer = data.players[random];
- console.log("the chosen playr" + random);
+ plebId = random;
+ //console.log("the chosen playr" + random);
  return chosenPlayer;
 }
 
@@ -268,7 +280,7 @@ function checkArrayIfEmpty(array)
  for(var i = 0; i < array.length; i++)
  {
   sum += array[i];
-  console.log(array[i], sum);
+  
  }
  if(sum == 0)
  {  
