@@ -16,7 +16,7 @@ function loading() {
 }
 
 function showPage() {
-  document.getElementById("loader").style.display = "none";
+  document.getElementsByClassName("loader")[0].style.display = "none";
   document.getElementById("myDiv").style.display = "block";
 }
 
@@ -26,7 +26,7 @@ function fetchData()
  var linkToHeroImages = "https://api.opendota.com/api/heroStats";
  var linkToRandomMatches = "https://api.opendota.com/api/publicMatches";
  var chosenMatch = "https://api.opendota.com/api/matches/";
-
+ 
  var request = new XMLHttpRequest();
  request.open('GET', linkToHeroImages,true );
 
@@ -99,9 +99,15 @@ function loadingElements()
  }
 }
 
+function undisableButton()
+{
+   document.getElementById("newGame").disabled = false;
+}
+
 function reset()
 {
-
+ document.getElementById("newGame").disabled = true;
+ setTimeout(undisableButton,300);
  chosenMatch = "https://api.opendota.com/api/matches/"; 
  var id = randomizeMatch(matches);
  plebId = 0;
@@ -115,6 +121,7 @@ function reset()
  document.getElementById("heroTitle").innerHTML = "";
  loopResetImg();
  document.getElementById("items").innerHTML = "";
+
 
 var request3 = new XMLHttpRequest();
 request3.open('GET', chosenMatch, true);

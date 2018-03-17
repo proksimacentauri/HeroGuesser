@@ -20,32 +20,72 @@ background: #22304C !important;
 box-shadow:0 0 15px rgba(0,0,0, 0.5);
   }
 }
-
-#loader {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-  width: 100px;
-  height: 100px;
-  margin: -75px 0 0 -75px;
-  border: 16px solid #f3f3f3;
+.loader,
+.loader:before,
+.loader:after {
   border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 100px;
-  height: 100px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
 }
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+.loader {
+  color: #ffffff;
+  font-size: 11px;
+  text-indent: -99999em;
+  margin: 55px auto;
+  position: relative;
+  width: 10em;
+  height: 10em;
+  box-shadow: inset 0 0 0 1em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
 }
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.loader:before,
+.loader:after {
+  position: absolute;
+  content: '';
+}
+.loader:before {
+  width: 5.2em;
+  height: 10.2em;
+  background:#22304C;
+  border-radius: 10.2em 0 0 10.2em;
+  top: -0.1em;
+  left: -0.1em;
+  -webkit-transform-origin: 5.2em 5.1em;
+  transform-origin: 5.2em 5.1em;
+  -webkit-animation: load2 2s infinite ease 1.5s;
+  animation: load2 2s infinite ease 1.5s;
+}
+.loader:after {
+  width: 5.2em;
+  height: 10.2em;
+  background: #22304C;
+  border-radius: 0 10.2em 10.2em 0;
+  top: -0.1em;
+  left: 5.1em;
+  -webkit-transform-origin: 0px 5.1em;
+  transform-origin: 0px 5.1em;
+  -webkit-animation: load2 2s infinite ease;
+  animation: load2 2s infinite ease;
+}
+@-webkit-keyframes load2 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load2 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 #myDiv {
@@ -142,9 +182,18 @@ color:white;
 }
 
 
-#items {
-    display:inline-block;
-     background-color: #151F33 !important;
+
+#items img 
+{
+ border:6px solid #1a1a1a;
+ box-shadow:0 0 15px rgba(0,0,0, 0.5);
+}
+
+#items 
+{
+  height: 80px;
+ display:inline-block;
+ z-index: 100;
 }
 
 #plebHero {
@@ -161,7 +210,4 @@ color:white;
  display:block;
 }
 
- #items img {
- border:6px solid #1a1a1a;
-box-shadow:0 0 15px rgba(0,0,0, 0.5);
-  }
+ 
