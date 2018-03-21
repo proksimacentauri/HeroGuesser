@@ -4,6 +4,25 @@ body {
 background: #22304C !important; 
 }
 
+ @media (min-width: 801px) {
+
+#items 
+{
+  height: 80px;
+ display:inline-block;
+
+}
+
+#items img 
+{
+ border:6px solid #1a1a1a;
+ box-shadow:0 0 15px rgba(0,0,0, 0.5);
+}
+
+ 
+}
+
+
 
 @media (max-width: 480px) 
 {
@@ -191,9 +210,9 @@ color:white;
 
 #items 
 {
-  height: 80px;
+
  display:inline-block;
- z-index: 100;
+
 }
 
 #plebHero {

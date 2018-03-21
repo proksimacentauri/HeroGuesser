@@ -87,9 +87,12 @@ function loadingElements()
  pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
-  var url = "/" + matchData.match_id + "/" + plebId + "/";
-  console.log(url);
- 
+ var parser = document.createElement('a');
+  var url =  matchData.match_id + "/" + plebId + "/";
+  parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "/?n="+ plebId;
+  console.log(parser, parser.search);
+ history.pushState(null, '', parser);
+
  if(checkArrayIfEmpty(plebItems) == false)
  {
  ArrayIntoICon(dotaItems, plebItems);
@@ -107,7 +110,7 @@ function undisableButton()
 function reset()
 {
  document.getElementById("newGame").disabled = true;
- setTimeout(undisableButton,300);
+ setTimeout(undisableButton,700);
  chosenMatch = "https://api.opendota.com/api/matches/"; 
  var id = randomizeMatch(matches);
  plebId = 0;
@@ -136,7 +139,12 @@ request3.open('GET', chosenMatch, true);
   pleb = randomizePlayer(matchData);
     plebItems = getArrayOfItems(pleb);
     plebHero =  getHeroIDPlayer(pleb);
-    var url = "/" + matchData.match_id + "/" + plebId + "/";
+    var parser = document.createElement('a');
+  var url =  matchData.match_id + "/" + plebId + "/";
+  parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "/?n="+ plebId;
+  console.log(parser, parser.id);
+ history.pushState(null, '', parser);
+
   console.log(url);
   if(checkArrayIfEmpty(plebItems) == false)
   {
@@ -303,6 +311,7 @@ function ArrayIntoICon(data,array)
   var imgLink = "http://cdn.dota2.com/apps/dota2/images/items/";
   for(var i = 0; i < array.length; i++)
   {
+    
    for (var a in data) 
    {
     if(array[i] == data[a].id)
