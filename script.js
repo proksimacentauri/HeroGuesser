@@ -59,6 +59,7 @@ request2.onload =  function ()
  var id = randomizeMatch(matches);
  console.log("I choose match number: " +id);
  chosenMatch += id;
+ 
  //console.log("the chosen match is" + chosenMatch);
 
  var request3 = new XMLHttpRequest();
@@ -70,7 +71,15 @@ request2.onload =  function ()
 {
  var nata = JSON.parse(this.response);
  matchData = nata;
+ loadHeroes();
+ if(checkUrl() == false)
+ { 
+  console.log("HEJPÅDIG");
  loadingElements();
+ }
+ else {
+   console.log("LEL");
+ }
 }
  request3.send();
 
@@ -79,18 +88,21 @@ request2.onload =  function ()
   
 }
 
-function loadingElements()
+function loadHeroes()
 {
  getImagesStr(heroes);
  getImagesAgi(heroes);
  getImagesInt(heroes);
+}
+
+function loadingElements()
+{
  pleb = randomizePlayer(matchData);
  plebHero =  getHeroIDPlayer(pleb);
  plebItems = getArrayOfItems(pleb);
  var parser = document.createElement('a');
-  var url =  matchData.match_id + "/" + plebId + "/";
-  parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "/?n="+ plebId;
-  console.log(parser, parser.search);
+ parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "&number="+ plebId;
+ console.log(parser, parser.pathname);
  history.pushState(null, '', parser);
 
  if(checkArrayIfEmpty(plebItems) == false)
@@ -100,6 +112,57 @@ function loadingElements()
  else {
   reset();
  }
+}
+
+function getParameterUrl()
+{
+ var urlString = window.location.href;
+ var url = new URL(urlString);
+ var matchId = url.searchParams.get("id");
+ var personId = url.searchParams.get("number");
+ var urlObj =  {
+  urlObject: url,
+  match_id: matchId,
+  player_id: personId
+ }
+ console.log(url, urlObj.match_id, personId, url.pathname);
+
+ return urlObj;
+}
+
+function checkUrl()
+{
+  var urlObj = getParameterUrl();
+  var matchLink = "https://api.opendota.com/api/matches/" + urlObj.match_id;
+  console.log(urlObj.urlObject.search);
+ if (urlObj.urlObject.search != "")
+ {
+  var request3 = new XMLHttpRequest();
+  request3.open('GET', matchLink, true);
+
+  request3.onload =  function () 
+ {
+
+  console.log(request3);
+  if(this.readyState === 4)
+  {
+
+  console.log("blblbblbl");
+   var nata = JSON.parse(this.response);
+   matchData = nata;
+   
+   pleb = getPlayer(matchData,urlObj.player_id);
+   plebItems = getArrayOfItems(pleb);
+   plebHero =  getHeroIDPlayer(pleb);
+  
+   ArrayIntoICon(dotaItems, plebItems);
+  }
+ }
+}
+else {
+  return false;
+}
+request3.send();
 }
 
 function undisableButton()
@@ -136,32 +199,26 @@ request3.open('GET', chosenMatch, true);
  var nata = JSON.parse(this.response);
  matchData = nata;
 
-  pleb = randomizePlayer(matchData);
-    plebItems = getArrayOfItems(pleb);
-    plebHero =  getHeroIDPlayer(pleb);
-    var parser = document.createElement('a');
-  var url =  matchData.match_id + "/" + plebId + "/";
-  parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "/?n="+ plebId;
-  console.log(parser, parser.id);
- history.pushState(null, '', parser);
-
-  console.log(url);
+ pleb = randomizePlayer(matchData);
+ plebItems = getArrayOfItems(pleb);
+ plebHero =  getHeroIDPlayer(pleb);
   if(checkArrayIfEmpty(plebItems) == false)
-  {
- 
+ {
   ArrayIntoICon(dotaItems, plebItems);
-  }
-
+ }
  else 
  {
   reset();
  }
    gameGoing = true;
+
+    var parser = document.createElement('a');
+ parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "&number="+ plebId;
+ console.log(parser, parser.id);
+ history.pushState(null, '', parser);
  }
 }
-
  request3.send();
-
 }
 
 function getImagesStr(data)
@@ -272,6 +329,16 @@ function randomizePlayer(data)
  return chosenPlayer;
 }
 
+
+function getPlayer(data, playerId)
+{
+ var number = playerId;
+ var chosenPlayer = data.players[number];
+ plebId = number;
+ //console.log("the chosen playr" + random);
+ return chosenPlayer;
+}
+
 function getHeroIDPlayer(obj)
 {
   return obj.hero_id;
@@ -325,7 +392,7 @@ function ArrayIntoICon(data,array)
        item.innerHTML +='<img src="'+fullImgLink+'">';
     }
    }
-    if(array[i]== 0)
+    if(array[i] == 0)
     {
       item.innerHTML += '<img src="empty.png">';
     }
