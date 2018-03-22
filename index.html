@@ -10,6 +10,16 @@
 <script src="script.js"></script>
 
 <input type="button" id="newGame" class="btn btn-default" type="button" onclick="reset()" value="New Game">
+ <button onclick="showForm()">Request specific match</button>
+ <div id="formDiv">
+  <form>
+  MatchId:<br>
+  <input type="text" id="matchIdText" value="please input the match id"><br>
+  <input type="button" id="matchSubmit" value="submit" onclick="getMatchHeroes()">
+  <div id="heroRadiant"></div>
+  <div id="heroDire"></div>
+</form> 
+</div>
 <div class="loader"></div>
 <div id="myDiv">
 

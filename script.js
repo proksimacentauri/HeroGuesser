@@ -41,6 +41,7 @@ request4.open('GET', "http://www.dota2.com/jsfeed/itemdata/?key=7C8B37F899203B91
  {
  var data = JSON.parse(this.response);
  heroes = data;
+  loadHeroes();
  }
   request.send();
 
@@ -71,7 +72,6 @@ request2.onload =  function ()
 {
  var nata = JSON.parse(this.response);
  matchData = nata;
- loadHeroes();
  if(checkUrl() == false)
  { 
   console.log("HEJPÅDIG");
@@ -107,7 +107,7 @@ function loadingElements()
 
  if(checkArrayIfEmpty(plebItems) == false)
  {
- ArrayIntoICon(dotaItems, plebItems);
+ ArrayIntoICon(dotaItems, plebItems, "items");
  }
  else {
   reset();
@@ -130,6 +130,141 @@ function getParameterUrl()
  return urlObj;
 }
 
+function showForm() 
+{
+    var x = document.getElementById("formDiv");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+} 
+
+function getMatchHeroes()
+{
+ var id = document.getElementById("matchIdText").value;
+ var gameLink = "https://api.opendota.com/api/matches/" + id;
+ var request3 = new XMLHttpRequest();
+ var arr;
+ request3.open('GET', gameLink, true);
+
+ request3.onload =  function () 
+ {
+  console.log(request3);
+  if(this.readyState === 4)
+  {
+  console.log("blblbblbl");
+   var nata = JSON.parse(this.response);
+   matchData = nata;
+   var matchPlayers = matchData.players;
+   arr = getHeroIdsFromMatch(matchPlayers);
+  loadHeroImages(heroes,arr,matchPlayers); 
+  console.log(matchData.players);
+  }
+ }
+ request3.send();
+}
+
+function getHeroIdsFromMatch(players)
+{
+  var arr = [];
+ for(var i = 0; i < players.length; i++)
+ {
+  console.log(players[i].hero_id)
+   arr.push(players[i].hero_id);
+ }
+ return arr;
+}
+
+function loadHeroImages(data,arr,matchPlayers)
+{
+ var imgLink = "http://cdn.dota2.com/";
+ var container1 = document.getElementById("heroRadiant");
+ var container2 = document.getElementById("heroDire");
+ var getHeroItems = [];
+
+ for(var a = 0; a < arr.length; a++)
+ {
+  for(var i = 0; i < data.length; i++)
+  { 
+   if(data[i].id == arr[a])
+   {
+    if(a < 5)
+    {
+     if(a === 0) 
+     {  
+      console.log("radiant icon");
+       container1.insertAdjacentHTML('beforeend', '<img src="radiantIcon.png" id="radiantTeamIcon"> <div id="radiantTeamText">Radiant Team</div>');
+     }
+    var fullImgLink = imgLink + data[i].img;
+    getHeroItems.push(getArrayOfItems(matchPlayers[a]));
+    container1.insertAdjacentHTML('beforeend', '<span class="heroDirs" id="heroDir'+a+'"><img class="formHeroes" src="'+fullImgLink+'" id="formHero'+a+'" onclick="alertMe(this.id)"></span>');
+    console.log("heroDir"+a);
+    ArrayIntoICon(dotaItems, getHeroItems[a], "heroDir"+a);
+    container1.innerHTML += "<br>";
+    }
+    else {
+      if(a === 5) 
+     {  
+      console.log("dire icon")
+       container2.insertAdjacentHTML('beforeend', '<img  src="direIcon.png" id="direTeamIcon"> <div id="direTeamText">Dire Team</div>');
+        
+     }
+    var fullImgLink = imgLink + data[i].img;
+    getHeroItems.push(getArrayOfItems(matchPlayers[a]));
+    container2.insertAdjacentHTML('beforeend', '<span class="heroDirs" id="heroDir'+a+'"><img class="formHeroes" src="'+fullImgLink+'" id="formHero'+a+'" onclick="alertMe(this.id)"></span>');
+    console.log("heroDir"+a);
+    ArrayIntoICon(dotaItems, getHeroItems[a], "heroDir"+a);
+    container2.innerHTML += "<br>";
+   }
+  }
+ }
+}
+}
+
+function alertMe(clickedId)
+{ 
+ var matchId = document.getElementById("matchIdText").value;
+ var matchLink = "https://api.opendota.com/api/matches/" + matchId;
+  document.getElementById("matchId").innerHTML = "";
+  plebId = 0;
+   plebItems.length = 0;
+ document.getElementById("heroTitle").innerHTML = "";
+ loopResetImg();
+ document.getElementById("items").innerHTML = "";
+
+ var request3 = new XMLHttpRequest();
+ request3.open('GET', matchLink, true);
+ 
+ request3.onload =  function () 
+ {
+  console.log(request3);
+
+  if(this.readyState === 4)
+  {
+
+  console.log("blblbblbl");
+   var nata = JSON.parse(this.response);
+   matchData = nata;
+  console.log(clickedId);
+  clickedId = clickedId.replace(/\D/g,'');
+   pleb = getPlayer(matchData,clickedId);
+   plebItems = getArrayOfItems(pleb);
+   plebHero =  getHeroIDPlayer(pleb);
+   ArrayIntoICon(dotaItems, plebItems, "items");
+   console.log("HELLO");
+   document.getElementById("formDiv").style.display = "none";
+   gameGoing = true;
+
+    var parser = document.createElement('a');
+ parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "&number="+ plebId;
+ console.log(parser, parser.id);
+ history.pushState(null, '', parser);
+  }
+ }
+  request3.send();
+}
+
 function checkUrl()
 {
   var urlObj = getParameterUrl();
@@ -140,7 +275,7 @@ function checkUrl()
   var request3 = new XMLHttpRequest();
   request3.open('GET', matchLink, true);
 
-  request3.onload =  function () 
+  request3.onreadystatechange =  function () 
  {
 
   console.log(request3);
@@ -155,7 +290,7 @@ function checkUrl()
    plebItems = getArrayOfItems(pleb);
    plebHero =  getHeroIDPlayer(pleb);
   
-   ArrayIntoICon(dotaItems, plebItems);
+   ArrayIntoICon(dotaItems, plebItems, "items");
   }
  }
 }
@@ -204,7 +339,7 @@ request3.open('GET', chosenMatch, true);
  plebHero =  getHeroIDPlayer(pleb);
   if(checkArrayIfEmpty(plebItems) == false)
  {
-  ArrayIntoICon(dotaItems, plebItems);
+  ArrayIntoICon(dotaItems, plebItems, "items");
  }
  else 
  {
@@ -281,7 +416,7 @@ function getId(clickedId,obj)
       document.getElementById("heroTitle").innerHTML = "you won! it was " + heroName;
       document.getElementById(plebHero).style.border = "3px solid green"; 
       omegaLul.src = blub; 
-      document.getElementById("matchId").innerHTML = "Match Id: " + matchData.match_id;
+      document.getElementById("matchId").innerHTML = "Match Id: " + "<a target='_blank' href=https://www.dotabuff.com/matches/" + matchData.match_id + ">" + matchData.match_id + "</a>";
       gameGoing = false;
   }
 
@@ -372,9 +507,10 @@ function checkArrayIfEmpty(array)
  return false;
 }
 
-function ArrayIntoICon(data,array)
+function ArrayIntoICon(data,array,divId)
 {
-  var item = document.getElementById("items");
+  //items
+  var item = document.getElementById(divId);
   var imgLink = "http://cdn.dota2.com/apps/dota2/images/items/";
   for(var i = 0; i < array.length; i++)
   {
@@ -389,7 +525,7 @@ function ArrayIntoICon(data,array)
       { 
         fullImgLink = imgLink + "trident_lg.png?3";
       }
-       item.innerHTML +='<img src="'+fullImgLink+'">';
+       item.innerHTML +='<img id="'+divId+'" src="'+fullImgLink+'">';
     }
    }
     if(array[i] == 0)
