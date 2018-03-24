@@ -142,19 +142,37 @@ function showForm()
 
 function getMatchHeroes()
 {
+
  var id = document.getElementById("matchIdText").value;
  var gameLink = "https://api.opendota.com/api/matches/" + id;
  var request3 = new XMLHttpRequest();
  var arr;
+ document.getElementById("heroRadiant").innerHTML = "";
+ document.getElementById("heroDire").innerHTML = "";
+
  request3.open('GET', gameLink, true);
 
  request3.onload =  function () 
  {
-  console.log(request3);
+
   if(this.readyState === 4)
   {
-  console.log("blblbblbl");
+      console.log("blblbblbl");
+   document.getElementById("textInfo").innerHTML = "";
+   if(this.status == 404)
+   { 
+    document.getElementById("textInfo").innerHTML = "Please input a valid match id.";
+    return false;
+   }
    var nata = JSON.parse(this.response);
+   console.log(nata.players[0].hero_id);
+   if(nata.players[0].hero_id == null)
+    {
+      console.log(this.response[1]);
+      document.getElementById("textInfo").innerHTML = "Please input a valid match id.";
+      return false;
+    }
+
    matchData = nata;
    var matchPlayers = matchData.players;
    arr = getHeroIdsFromMatch(matchPlayers);
@@ -198,7 +216,7 @@ function loadHeroImages(data,arr,matchPlayers)
      }
     var fullImgLink = imgLink + data[i].img;
     getHeroItems.push(getArrayOfItems(matchPlayers[a]));
-    container1.insertAdjacentHTML('beforeend', '<span class="heroDirs" id="heroDir'+a+'"><img class="formHeroes" src="'+fullImgLink+'" id="formHero'+a+'" onclick="alertMe(this.id)"></span>');
+    container1.insertAdjacentHTML('beforeend', '<span class="heroDirs" id="heroDir'+a+'" onclick="alertMe(this.id)"><img class="formHeroes" src="'+fullImgLink+'" id="formHero'+a+'" onclick="alertMe(this.id)"></span>');
     console.log("heroDir"+a);
     ArrayIntoICon(dotaItems, getHeroItems[a], "heroDir"+a);
     container1.innerHTML += "<br>";
@@ -212,7 +230,7 @@ function loadHeroImages(data,arr,matchPlayers)
      }
     var fullImgLink = imgLink + data[i].img;
     getHeroItems.push(getArrayOfItems(matchPlayers[a]));
-    container2.insertAdjacentHTML('beforeend', '<span class="heroDirs" id="heroDir'+a+'"><img class="formHeroes" src="'+fullImgLink+'" id="formHero'+a+'" onclick="alertMe(this.id)"></span>');
+    container2.insertAdjacentHTML('beforeend', '<span class="heroDirs" id="heroDir'+a+'" onclick="alertMe(this.id)"><img class="formHeroes" src="'+fullImgLink+'" id="formHero'+a+'" onclick="alertMe(this.id)"></span>');
     console.log("heroDir"+a);
     ArrayIntoICon(dotaItems, getHeroItems[a], "heroDir"+a);
     container2.innerHTML += "<br>";
@@ -225,9 +243,11 @@ function loadHeroImages(data,arr,matchPlayers)
 function alertMe(clickedId)
 { 
  var matchId = document.getElementById("matchIdText").value;
+   clickedId = clickedId.replace(/\D/g,'');
+ console.log("matchId:" + matchId + "matchData.match_id:"+matchData.match_id + "clickedid: " + clickedId + "plebId: " + plebId );
  var matchLink = "https://api.opendota.com/api/matches/" + matchId;
   document.getElementById("matchId").innerHTML = "";
-  plebId = 0;
+
    plebItems.length = 0;
  document.getElementById("heroTitle").innerHTML = "";
  loopResetImg();
@@ -242,12 +262,17 @@ function alertMe(clickedId)
 
   if(this.readyState === 4)
   {
-
+    if(matchId == matchData.match_id && plebId == clickedId)
+   {
+    console.log("Beep boop this works 4 test case" + plebId +  "wow" + clickedId);
+    return false;
+   }
+     plebId = 0;
   console.log("blblbblbl");
    var nata = JSON.parse(this.response);
    matchData = nata;
   console.log(clickedId);
-  clickedId = clickedId.replace(/\D/g,'');
+   document.getElementById("plebHer").src ="heroBefore.png";
    pleb = getPlayer(matchData,clickedId);
    plebItems = getArrayOfItems(pleb);
    plebHero =  getHeroIDPlayer(pleb);
@@ -313,7 +338,7 @@ function reset()
  var id = randomizeMatch(matches);
  plebId = 0;
 
- document.getElementById("plebHer").src ="heroBefore.png"
+ document.getElementById("plebHer").src ="heroBefore.png";
  plebItems.length = 0;
  chosenMatch += id;
  
@@ -416,7 +441,7 @@ function getId(clickedId,obj)
       document.getElementById("heroTitle").innerHTML = "you won! it was " + heroName;
       document.getElementById(plebHero).style.border = "3px solid green"; 
       omegaLul.src = blub; 
-      document.getElementById("matchId").innerHTML = "Match Id: " + "<a target='_blank' href=https://www.dotabuff.com/matches/" + matchData.match_id + ">" + matchData.match_id + "</a>";
+      document.getElementById("matchId").innerHTML = "Match Id: " + "<a target='_blank' href=https://www.opendota.com/matches/" + matchData.match_id + ">" + matchData.match_id + "</a>";
       gameGoing = false;
   }
 
