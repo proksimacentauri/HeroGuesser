@@ -12,7 +12,7 @@ var matches;
 
 function loading() {
    fetchData();
-    myVar = setTimeout(showPage, 1000);
+    //myVar = setTimeout(showPage, 5000);
 }
 
 function showPage() {
@@ -104,14 +104,15 @@ function loadingElements()
  parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "&number="+ plebId;
  console.log(parser, parser.pathname);
  history.pushState(null, '', parser);
-
  if(checkArrayIfEmpty(plebItems) == false)
  {
+
  ArrayIntoICon(dotaItems, plebItems, "items");
  }
  else {
   reset();
  }
+
 }
 
 function getParameterUrl()
@@ -133,7 +134,7 @@ function getParameterUrl()
 function showForm() 
 {
     var x = document.getElementById("formDiv");
-    if (x.style.display === "none") {
+    if (x.style.display == "none") {
         x.style.display = "block";
     } else {
         x.style.display = "none";
@@ -162,6 +163,7 @@ function getMatchHeroes()
    if(this.status == 404)
    { 
     document.getElementById("textInfo").innerHTML = "Please input a valid match id.";
+    document.getElementById("matchSubmit").disabled = false;
     return false;
    }
    var nata = JSON.parse(this.response);
@@ -170,6 +172,7 @@ function getMatchHeroes()
     {
       console.log(this.response[1]);
       document.getElementById("textInfo").innerHTML = "Please input a valid match id.";
+      document.getElementById("matchSubmit").disabled = false;
       return false;
     }
 
@@ -178,6 +181,7 @@ function getMatchHeroes()
    arr = getHeroIdsFromMatch(matchPlayers);
   loadHeroImages(heroes,arr,matchPlayers); 
   console.log(matchData.players);
+  document.getElementById("textInfo").innerHTML = "";
   }
  }
  request3.send();
@@ -287,6 +291,7 @@ function alertMe(clickedId)
 
     var parser = document.createElement('a');
  parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "&number="+ plebId;
+ document.getElementById("lenkshare").innerHTML = "share this link for game: " +parser;
  console.log(parser, parser.id);
  history.pushState(null, '', parser);
   }
@@ -318,7 +323,7 @@ function checkUrl()
    pleb = getPlayer(matchData,urlObj.player_id);
    plebItems = getArrayOfItems(pleb);
    plebHero =  getHeroIDPlayer(pleb);
-  
+   document.getElementById("lenkshare").innerHTML = "share this link for game: " + urlObj.urlObject.href;
    ArrayIntoICon(dotaItems, plebItems, "items");
   }
  }
@@ -379,6 +384,7 @@ request3.open('GET', chosenMatch, true);
     var parser = document.createElement('a');
  parser = "http://192.168.64.2/HeroGuesser/?id=" + matchData.match_id + "&number="+ plebId;
  console.log(parser, parser.id);
+ document.getElementById("lenkshare").innerHTML = "share this link for game: " +parser;
  history.pushState(null, '', parser);
  }
 }
@@ -562,4 +568,5 @@ function ArrayIntoICon(data,array,divId)
       item.innerHTML += '<img src="empty.png">';
     }
   }
+    showPage();
 }

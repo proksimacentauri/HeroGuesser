@@ -1,7 +1,7 @@
 body {
 	font-family: 'arial';	
 	color:white;
-background: #22304C !important; 
+background: #131517 !important; 
 }
 
  @media (min-width: 801px) {
@@ -31,7 +31,7 @@ background: #22304C !important;
     top: 0px;
     right:0px; 
     z-index:10;
-    background: #151F33;
+    background:#35363A;
     box-shadow:0 0 15px rgba(0,0,0, 0.5);
   }
   #items img {
@@ -65,7 +65,7 @@ box-shadow:0 0 15px rgba(0,0,0, 0.5);
 .loader:before {
   width: 5.2em;
   height: 10.2em;
-  background:#22304C;
+  background:#131517;
   border-radius: 10.2em 0 0 10.2em;
   top: -0.1em;
   left: -0.1em;
@@ -77,7 +77,7 @@ box-shadow:0 0 15px rgba(0,0,0, 0.5);
 .loader:after {
   width: 5.2em;
   height: 10.2em;
-  background: #22304C;
+  background: #131517;
   border-radius: 0 10.2em 10.2em 0;
   top: -0.1em;
   left: 5.1em;
@@ -137,7 +137,7 @@ box-shadow:0 0 15px rgba(0,0,0, 0.5);
 
 #lowerContainer {
   
-     background: #151F33 !important; 
+     background:#111111 !important; 
 }
 
 #strength {
@@ -272,7 +272,7 @@ color:white;
 
 .heroDirs:hover {
   display:block;
-background-color: #151F33;
+background-color: #272F2E;
   
 }
 
@@ -283,17 +283,17 @@ background-color: #151F33;
 }
 
 #matchIdText {
-  background-color: #22304C;
+  background-color:#131517;
   border: 0px;
   color:white;
   transition:all 0.2s;
   width: 128px ;
   text-align:center;
-  border-bottom: solid #151F33 1px;
+  border-bottom: solid #13828A 1px;
 }
 
 #matchIdText:focus {
-  background-color: #22304C;
+  background-color: #131517;
   border: 0px;
   color:white;
   transition:all 0.2s;
@@ -306,3 +306,13 @@ background-color: #151F33;
   margin: 10px;
 }
 
+#brandName {
+background-color: #13828A;
+text-align:center; 
+  width: 100px;
+  border-radius: 2%;
+}
+
+#lenkshare {
+  color: white;
+}
