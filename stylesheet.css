@@ -286,11 +286,23 @@ background-color: #151F33;
   background-color: #22304C;
   border: 0px;
   color:white;
+  transition:all 0.2s;
   width: 128px ;
   text-align:center;
-  border-bottom: solid white 1px;
+  border-bottom: solid #151F33 1px;
+}
+
+#matchIdText:focus {
+  background-color: #22304C;
+  border: 0px;
+  color:white;
+  transition:all 0.2s;
+  width: 128px ;
+  text-align:center;
+  border-bottom: solid white 3px;
 }
 
 #matchSubmit {
   margin: 10px;
 }
+

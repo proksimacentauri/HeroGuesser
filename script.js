@@ -142,7 +142,7 @@ function showForm()
 
 function getMatchHeroes()
 {
-
+ document.getElementById("matchSubmit").disabled = true;
  var id = document.getElementById("matchIdText").value;
  var gameLink = "https://api.opendota.com/api/matches/" + id;
  var request3 = new XMLHttpRequest();
@@ -238,6 +238,7 @@ function loadHeroImages(data,arr,matchPlayers)
   }
  }
 }
+ document.getElementById("matchSubmit").disabled = false;
 }
 
 function alertMe(clickedId)
@@ -247,11 +248,12 @@ function alertMe(clickedId)
  console.log("matchId:" + matchId + "matchData.match_id:"+matchData.match_id + "clickedid: " + clickedId + "plebId: " + plebId );
  var matchLink = "https://api.opendota.com/api/matches/" + matchId;
   document.getElementById("matchId").innerHTML = "";
-
+    document.getElementById("plebHer").src ="heroBefore.png";
    plebItems.length = 0;
  document.getElementById("heroTitle").innerHTML = "";
  loopResetImg();
- document.getElementById("items").innerHTML = "";
+ var linked = getParameterUrl();
+ console.log(linked);
 
  var request3 = new XMLHttpRequest();
  request3.open('GET', matchLink, true);
@@ -262,17 +264,19 @@ function alertMe(clickedId)
 
   if(this.readyState === 4)
   {
-    if(matchId == matchData.match_id && plebId == clickedId)
-   {
-    console.log("Beep boop this works 4 test case" + plebId +  "wow" + clickedId);
-    return false;
-   }
-     plebId = 0;
+  
   console.log("blblbblbl");
    var nata = JSON.parse(this.response);
    matchData = nata;
+   if(matchId == linked.match_id && linked.player_id == clickedId)
+   {
+    console.log("Beep boop this works 4 test case" + matchId + " " + matchData.match_id + plebId +  "wow" + clickedId);
+     document.getElementById("formDiv").style.display = "none";
+    return false;
+   }
+    document.getElementById("items").innerHTML = "";
+     plebId = 0;
   console.log(clickedId);
-   document.getElementById("plebHer").src ="heroBefore.png";
    pleb = getPlayer(matchData,clickedId);
    plebItems = getArrayOfItems(pleb);
    plebHero =  getHeroIDPlayer(pleb);
@@ -333,7 +337,6 @@ function undisableButton()
 function reset()
 {
  document.getElementById("newGame").disabled = true;
- setTimeout(undisableButton,700);
  chosenMatch = "https://api.opendota.com/api/matches/"; 
  var id = randomizeMatch(matches);
  plebId = 0;
@@ -365,6 +368,7 @@ request3.open('GET', chosenMatch, true);
   if(checkArrayIfEmpty(plebItems) == false)
  {
   ArrayIntoICon(dotaItems, plebItems, "items");
+  undisableButton();
  }
  else 
  {
