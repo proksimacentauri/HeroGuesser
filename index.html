@@ -9,7 +9,7 @@
 <body onload="loading()">
 <script src="script.js"></script>
 <nav class="navbar navbar-dark" style="background-color:  #131517;">
- <a class="navbar-brand " id="brandName" href="#">Guess The Hero</a>
+ <a class="navbar-brand " id="brandName" href="">Guess The Hero</a>
 </nav>
   <button class="btn btn-outline"  onclick="showForm()">Request specific match</button>
   <input type="button"  id="newGame" class="btn btn-outline" type="button" onclick="reset()" value="New Game">
@@ -29,8 +29,8 @@
 <div class="container-fluid" id="lowerContainer">
 <div id="heroTitle"></div>
 <div id="plebHero"><img id="plebHer" class="img-responsive" src="heroBefore.png"></div>
-<div id="matchId"></div>
-<div id="lenkshare"></div>
+<input type="text" id="linkText">
+<button id="linkshare" onclick="CopyLink()">Click me to share!</button>
 </div>
 <div align="center" id="items"></div>
 <div class="container-fluid" id="container">
